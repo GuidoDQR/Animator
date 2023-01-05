@@ -11,7 +11,11 @@ int main(){
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - drop files");
 
-    FilePathList droppedFiles;
+    FilePathList droppedFiles = {0}; 
+
+    vector<FilePathList> fileManager;
+
+    bool fileInsert = false;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -24,10 +28,12 @@ int main(){
         if (IsFileDropped())
         {
             // Is some files have been previously loaded, unload them
-            //if (droppedFiles.count > 0) UnloadDroppedFiles(droppedFiles);
+            if (droppedFiles.count > 0) UnloadDroppedFiles(droppedFiles);
             
             // Load new dropped files
             droppedFiles = LoadDroppedFiles();
+            fileManager.push_back(droppedFiles);
+
         }
         //----------------------------------------------------------------------------------
 
@@ -37,17 +43,23 @@ int main(){
 
             ClearBackground(RAYWHITE);
 
-            if (droppedFiles.count == 0) DrawText("Drop your files to this window!", 100, 40, 20, DARKGRAY);
+            if (fileManager.size() == 0) DrawText("Drop your files to this window!", 100, 40, 20, DARKGRAY);
             else
             {
                 DrawText("Dropped files:", 100, 40, 20, DARKGRAY);
 
-                for (unsigned int i = 0; i < droppedFiles.count; i++)
-                {
-                    if (i%2 == 0) DrawRectangle(0, 85 + 40*i, screenWidth, 40, Fade(LIGHTGRAY, 0.5f));
-                    else DrawRectangle(0, 85 + 40*i, screenWidth, 40, Fade(LIGHTGRAY, 0.3f));
+                for (unsigned int i = 0; i < fileManager.size(); i++)
+                {   
+                    printf("i: %d\n",i);
+                    printf("capacity: %d\n", fileManager[i].capacity);
+                    printf("count: %d\n", fileManager[i].count);
+                    for(unsigned int j=0; j < fileManager[i].count;j++){
+                        if (i%2 == 0) DrawRectangle(0, 85 + 40*i, screenWidth, 40, Fade(LIGHTGRAY, 0.5f));
+                        else DrawRectangle(0, 85 + 40*i, screenWidth, 40, Fade(LIGHTGRAY, 0.3f));
 
-                    DrawText(droppedFiles.paths[i], 120, 100 + 40*i, 10, GRAY);
+                        DrawText(fileManager[i].paths[j], 120, 100 + 40*i, 10, GRAY);
+
+                    }
                 }
 
                 DrawText("Drop new files...", 100, 110 + 40*droppedFiles.count, 20, DARKGRAY);
