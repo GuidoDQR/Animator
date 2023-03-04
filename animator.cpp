@@ -10,6 +10,34 @@ namespace fs = std::filesystem;
 #include "raymath.h"
 using namespace std;
 
+void ChangeTexturePosition(int actualPos, int newPos, std::vector<Texture2D>& textureManager, std::vector<Vector2>& texturePos, 
+    std::vector<string>& filePathManager, std::vector<string>& fileNameManager, std::vector<Rectangle>& showTextureManager, std::vector<Color>& showTextureColorManager){
+
+    Texture2D aux = textureManager[actualPos];
+    textureManager[actualPos] = textureManager[newPos];
+    textureManager[newPos] = aux;
+
+    Vector2 auxVec = texturePos[actualPos];
+    texturePos[actualPos] = texturePos[newPos];
+    texturePos[newPos] = auxVec;
+
+    string auxFilePath = filePathManager[actualPos];
+    filePathManager[actualPos] = filePathManager[newPos];
+    filePathManager[newPos] = auxFilePath;
+
+    string auxFileName = fileNameManager[actualPos];
+    fileNameManager[actualPos] = fileNameManager[newPos];
+    fileNameManager[newPos] = auxFileName;
+
+    Rectangle auxRec = showTextureManager[actualPos];
+    showTextureManager[actualPos] = showTextureManager[newPos];
+    showTextureManager[newPos] = auxRec;
+
+    Color auxColor = showTextureColorManager[actualPos];
+    showTextureColorManager[actualPos] = showTextureColorManager[newPos];
+    showTextureColorManager[newPos] = auxColor;
+}
+
 int main(void)
 {
     // Initialization
@@ -146,35 +174,15 @@ int main(void)
                         canPressKey = false;
 
                         unsigned int lastPos;
-                        if(actualTexture != textureManager.size()-1){ lastPos = actualTexture+1; }
-                        else{ lastPos = 0; }
 
-                        Texture2D aux = textureManager[actualTexture];
-                        textureManager[actualTexture] = textureManager[lastPos];
-                        textureManager[lastPos] = aux;
+                        if(actualTexture != 0){ lastPos = actualTexture-1; }
+                        else{         lastPos = textureManager.size()-1; }
 
-                        Vector2 auxVec = texturePos[actualTexture];
-                        texturePos[actualTexture] = texturePos[lastPos];
-                        texturePos[lastPos] = auxVec;
+                        ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
 
-                        string auxFilePath = filePathManager[actualTexture];
-                        filePathManager[actualTexture] = filePathManager[lastPos];
-                        filePathManager[lastPos] = auxFilePath;
-
-                        string auxFileName = fileNameManager[actualTexture];
-                        fileNameManager[actualTexture] = fileNameManager[lastPos];
-                        fileNameManager[lastPos] = auxFileName;
-
-                        Rectangle auxRec = showTextureManager[actualTexture];
-                        showTextureManager[actualTexture] = showTextureManager[lastPos];
-                        showTextureManager[lastPos] = auxRec;
-
-                        Color auxColor = showTextureColorManager[actualTexture];
-                        showTextureColorManager[actualTexture] = showTextureColorManager[lastPos];
-                        showTextureColorManager[lastPos] = auxColor;
-
-                        if(actualTexture != textureManager.size()-1){ actualTexture++; }
-                        else{ actualTexture = 0; }
+                        if(actualTexture != 0){ actualTexture--; }
+                        else{ actualTexture = textureManager.size()-1; }
+                        
 
      
                         
@@ -184,35 +192,14 @@ int main(void)
                         
                         unsigned int lastPos;
 
-                        if(actualTexture != 0){ lastPos = actualTexture-1; }
-                        else{         lastPos = textureManager.size()-1; }
+                        if(actualTexture != textureManager.size()-1){ lastPos = actualTexture+1; }
+                        else{ lastPos = 0; }
+                        
 
-                        Texture2D aux = textureManager[actualTexture];
-                        textureManager[actualTexture] = textureManager[lastPos];
-                        textureManager[lastPos] = aux;
+                       ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
 
-                        Vector2 auxVec = texturePos[actualTexture];
-                        texturePos[actualTexture] = texturePos[lastPos];
-                        texturePos[lastPos] = auxVec;
-
-                        string auxFilePath = filePathManager[actualTexture];
-                        filePathManager[actualTexture] = filePathManager[lastPos];
-                        filePathManager[lastPos] = auxFilePath;
-
-                        string auxFileName = fileNameManager[actualTexture];
-                        fileNameManager[actualTexture] = fileNameManager[lastPos];
-                        fileNameManager[lastPos] = auxFileName;
-
-                        Rectangle auxRec = showTextureManager[actualTexture];
-                        showTextureManager[actualTexture] = showTextureManager[lastPos];
-                        showTextureManager[lastPos] = auxRec;
-
-                        Color auxColor = showTextureColorManager[actualTexture];
-                        showTextureColorManager[actualTexture] = showTextureColorManager[lastPos];
-                        showTextureColorManager[lastPos] = auxColor;
-
-                        if(actualTexture != 0){ actualTexture--; }
-                        else{ actualTexture = textureManager.size()-1; }
+                        if(actualTexture != textureManager.size()-1){ actualTexture++; }
+                        else{ actualTexture = 0; }
                     }
                 }
             }
