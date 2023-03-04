@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 using namespace std;
 
 void ChangeTexturePosition(int actualPos, int newPos, std::vector<Texture2D>& textureManager, std::vector<Vector2>& texturePos, 
-    std::vector<string>& filePathManager, std::vector<string>& fileNameManager, std::vector<Rectangle>& showTextureManager, std::vector<Color>& showTextureColorManager){
+    std::vector<string>& filePathManager, std::vector<string>& fileNameManager, std::vector<Color>& showTextureColorManager){
 
     Texture2D aux = textureManager[actualPos];
     textureManager[actualPos] = textureManager[newPos];
@@ -28,10 +28,6 @@ void ChangeTexturePosition(int actualPos, int newPos, std::vector<Texture2D>& te
     string auxFileName = fileNameManager[actualPos];
     fileNameManager[actualPos] = fileNameManager[newPos];
     fileNameManager[newPos] = auxFileName;
-
-    Rectangle auxRec = showTextureManager[actualPos];
-    showTextureManager[actualPos] = showTextureManager[newPos];
-    showTextureManager[newPos] = auxRec;
 
     Color auxColor = showTextureColorManager[actualPos];
     showTextureColorManager[actualPos] = showTextureColorManager[newPos];
@@ -122,7 +118,6 @@ int main(void)
                         
                         fileName += fileNameReverse[fileNameReverse.size()-i];                 
                     }
-                    printf("%s\n",fileName.c_str());
 
                     fileNameManager.push_back(fileName);
 
@@ -177,13 +172,13 @@ int main(void)
 
                         if(actualTexture != 0){ 
                             lastPos = actualTexture--; 
-                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureColorManager);
                         }
                         else{         
                             lastPos = textureManager.size()-1; 
                             actualTexture = lastPos;
-                            for(int i = 0; i < lastPos;i++){
-                                ChangeTexturePosition(i,i+1,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            for(unsigned int i = 0; i < lastPos;i++){
+                                ChangeTexturePosition(i,i+1,textureManager,texturePos, filePathManager, fileNameManager, showTextureColorManager);
                             }
                         }
                                          
@@ -195,12 +190,12 @@ int main(void)
 
                         if(actualTexture != textureManager.size()-1){ 
                             lastPos = actualTexture++; 
-                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureColorManager);
                         }else{ 
                             lastPos = 0; 
                             actualTexture = lastPos;
-                            for(int i = textureManager.size()-1; i > lastPos;i--){
-                                ChangeTexturePosition(i,i-1,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            for(unsigned int i = textureManager.size()-1; i > lastPos;i--){
+                                ChangeTexturePosition(i,i-1,textureManager,texturePos, filePathManager, fileNameManager, showTextureColorManager);                              
                             }
                         }
                         
