@@ -164,7 +164,6 @@ int main(void)
             if(IsKeyDown(KEY_LEFT_CONTROL)){
                 if(textureManager.size()>1){
                     if(IsKeyPressed(KEY_A)){
-                        //printf("pase por control + a\n");
 
                         canPressKey = false;
 
@@ -258,8 +257,9 @@ int main(void)
                 if(IsKeyPressed(KEY_S)){
                     textAlpha = 128; // 2 seconds
 
+                    std::vector<Vector2> saveTexturePos;
                     fs::create_directories("./Positions"); 
-                    string fileName = "Positions/position.txt";
+                    string fileName = "Positions/positions.txt";
                     ofstream file;
 
                     if(FileExists(fileName.c_str())){ 
@@ -267,7 +267,7 @@ int main(void)
                         
                         do{
                             i++;
-                            fileName = "Positions/position(" + to_string(i) + ").txt";            
+                            fileName = "Positions/positions(" + to_string(i) + ").txt";            
                         }while(FileExists(fileName.c_str()) == true);
 
                         file.open(fileName.c_str());
@@ -276,7 +276,12 @@ int main(void)
 
                     
                     for(unsigned int i=0; i< texturePos.size();i++){
-                        file << texturePos[i].x << " " << texturePos[i].y;
+                        if(showTextureColorManager[i].g == 228){ saveTexturePos.push_back(texturePos[i]);}
+
+                    }
+
+                    for(unsigned int i=0; i< saveTexturePos.size();i++){
+                        file << saveTexturePos[i].x << " " << saveTexturePos[i].y << "   ";
                     }
 
                     file.close();  
