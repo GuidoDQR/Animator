@@ -175,31 +175,35 @@ int main(void)
 
                         unsigned int lastPos;
 
-                        if(actualTexture != 0){ lastPos = actualTexture-1; }
-                        else{         lastPos = textureManager.size()-1; }
-
-                        ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
-
-                        if(actualTexture != 0){ actualTexture--; }
-                        else{ actualTexture = textureManager.size()-1; }
-                        
-
-     
-                        
+                        if(actualTexture != 0){ 
+                            lastPos = actualTexture--; 
+                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                        }
+                        else{         
+                            lastPos = textureManager.size()-1; 
+                            actualTexture = lastPos;
+                            for(int i = 0; i < lastPos;i++){
+                                ChangeTexturePosition(i,i+1,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            }
+                        }
+                                         
                     }else if(IsKeyPressed(KEY_D)){
                         
                         canPressKey = false;
                         
                         unsigned int lastPos;
 
-                        if(actualTexture != textureManager.size()-1){ lastPos = actualTexture+1; }
-                        else{ lastPos = 0; }
+                        if(actualTexture != textureManager.size()-1){ 
+                            lastPos = actualTexture++; 
+                            ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                        }else{ 
+                            lastPos = 0; 
+                            actualTexture = lastPos;
+                            for(int i = textureManager.size()-1; i > lastPos;i--){
+                                ChangeTexturePosition(i,i-1,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
+                            }
+                        }
                         
-
-                       ChangeTexturePosition(actualTexture,lastPos,textureManager,texturePos, filePathManager, fileNameManager, showTextureManager, showTextureColorManager);
-
-                        if(actualTexture != textureManager.size()-1){ actualTexture++; }
-                        else{ actualTexture = 0; }
                     }
                 }
             }
